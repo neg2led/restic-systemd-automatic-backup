@@ -1,5 +1,5 @@
 # Not file targets.
-.PHONY: help install install-scripts install-conf install-systemd uninstall
+.PHONY: help prefix-substitute install install-scripts install-conf install-systemd uninstall
 
 ### Macros ###
 SRCS_SCRIPTS	= $(filter-out %cron_mail, $(wildcard sbin/*))
@@ -25,8 +25,13 @@ help:
 	@egrep "#\starget:" [Mm]akefile  | sed 's/\s-\s/\t\t\t/' | cut -d " " -f3- | sort -d
 
 # target: prefix-substitute - Replace the placeholder '$RESTIC_PREFIX' with the value of $PREFIX.
+# TODO not ideal, if running a 2nd time with different $PREFIX, there is no longer any $RESTIC_PREFIX to substitue...
+#      Possible solution: copy all source files to new dir build/ and replace there and install from it.
 prefix-substitute:
-	@find etc sbin -type f -exec sed -i.bak -e "s|\$$RESTIC_PREFIX|$$PREFIX|g" {} \; -exec rm {}.bak \;
+	find etc sbin -type f -exec sed -i.bak -e "s|\$$RESTIC_PREFIX|$$PREFIX|g" {} \; -exec rm {}.bak \;
+
+# Make sure this target is run before all targets always. Reference: https://stackoverflow.com/a/10727593/265508
+-include prefix-substitute
 
 # target: install - Install all files
 install: install-scripts install-conf install-systemd
