@@ -2,7 +2,7 @@
 .PHONY: help install install-scripts install-conf install-systemd uninstall
 
 ### Macros ###
-SRCS_SCRIPTS	= $(filter-out %cron_mail, $(wildcard usr/local/sbin/*))
+SRCS_SCRIPTS	= $(filter-out %cron_mail, $(wildcard sbin/*))
 # $(sort) remove duplicates that comes from running make install >1 times.
 SRCS_CONF	= $(sort $(patsubst %.template, %, $(wildcard etc/restic/*)))
 SRCS_SYSTEMD	= $(wildcard etc/systemd/system/*)
@@ -10,7 +10,7 @@ SRCS_SYSTEMD	= $(wildcard etc/systemd/system/*)
 # To change the installation root path, set the PREFIX variable in your shell's environment, like:
 # $ PREFIX=/usr/local make install
 # $ PREFIX=/tmp/test make install
-DEST_SCRIPTS	= $(PREFIX)/usr/local/sbin
+DEST_SCRIPTS	= $(PREFIX)/sbin
 DEST_CONF	= $(PREFIX)/etc/restic
 DEST_SYSTEMD	= $(PREFIX)/etc/systemd/system
 

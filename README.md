@@ -114,7 +114,7 @@ $ restic init
 ```
 
 ## 4. Script for doing the backup
-Put this file in `/usr/local/sbin`:
+Put this file in `/sbin`:
 * `restic_backup.sh`: A script that defines how to run the backup. Edit this file to respect your needs in terms of backup which paths to backup, retention (number of backups to save), etc.
 
 Restic support exclude files. They list file pattern paths to exclude from you backups, files that just occupy storage space, backup-time, network and money. `restic_backup.sh` allows for a few different exclude files.
@@ -133,7 +133,7 @@ Now see if the backup itself works, by running as root
 ```console
 $ sudo -i
 $ source /etc/restic/default.env
-$ /usr/local/sbin/restic_backup.sh
+$ /sbin/restic_backup.sh
 ````
 
 ## 6. Verify the backup
@@ -197,7 +197,7 @@ $ journalctl -f -u restic-backup@default.service
 ## 8. Email notification on failure
 We want to be aware when the automatic backup fails, so we can fix it. Since my laptop does not run a mail server, I went for a solution to set up my laptop to be able to send emails with [postfix via my Gmail](https://easyengine.io/tutorials/linux/ubuntu-postfix-gmail-smtp/). Follow the instructions over there.
 
-Put this file in `/usr/local/sbin`:
+Put this file in `/sbin`:
 * `systemd-email`: Sends email using sendmail(1). This script also features time-out for not spamming Gmail servers and getting my account blocked.
 
 Put this files in `/etc/systemd/system/`:
@@ -223,7 +223,7 @@ $ systemctl enable restic-check@default.timer
 If you want to run an all-classic cron job instead, do like this:
 
 * `etc/cron.d/restic`: Depending on your system's cron, put this in `/etc/cron.d/` or similar, or copy the contents to $(sudo crontab -e). The format of this file is tested under FreeBSD, and might need adaptions depending on your cron.
-* `usr/local/sbin/cron_mail`: A wrapper for running cron jobs, that sends output of the job as an email using the mail(1) command.
+* `sbin/cron_mail`: A wrapper for running cron jobs, that sends output of the job as an email using the mail(1) command.
 
 # Uninstall
 

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - `restic_backup.sh` now finds `.backup_exclude` files on each backup path as intended.
+- Install executeables to `$PREFIX/sbin` instead of `$PREFIX/user/local/sbin`, so that `$ PREFIX=/usr/local make install` does what is expected.
 
 ## [1.0.1] - 2021-12-03
 ### Fixed
