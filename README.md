@@ -72,6 +72,10 @@ Note, you can use any of the supported [storage backends](https://restic.readthe
 1. (optional) Setup email on failure as described [here](#8-email-notification-on-failure)
 
 # Step-by-step and manual setup
+
+TODO  sed that removes all $RESTIC_PREFIX
+
+
 This is a more detailed explanation than the TL;DR section that will give you more understanding in the setup, and maybe inspire you to develop your own setup based on this one even!
 
 Tip: The steps in this section will instruct you to copy files from this repo to system directories. If you don't want to do this manually, you can use the Makefile:
