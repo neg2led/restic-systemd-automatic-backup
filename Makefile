@@ -24,6 +24,10 @@ all: install
 help:
 	@egrep "#\starget:" [Mm]akefile  | sed 's/\s-\s/\t\t\t/' | cut -d " " -f3- | sort -d
 
+# target: prefix-substitute - Replace the placeholder '$RESTIC_PREFIX' with the value of $PREFIX.
+prefix-substitute:
+	@find etc sbin -type f -exec sed -i.bak -e "s|\$$RESTIC_PREFIX|$$PREFIX|g" {} \; -exec rm {}.bak \;
+
 # target: install - Install all files
 install: install-scripts install-conf install-systemd
 

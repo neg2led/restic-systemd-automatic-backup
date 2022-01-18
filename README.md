@@ -72,10 +72,6 @@ Note, you can use any of the supported [storage backends](https://restic.readthe
 1. (optional) Setup email on failure as described [here](#8-email-notification-on-failure)
 
 # Step-by-step and manual setup
-
-TODO  sed that removes all $RESTIC_PREFIX
-
-
 This is a more detailed explanation than the TL;DR section that will give you more understanding in the setup, and maybe inspire you to develop your own setup based on this one even!
 
 Tip: The steps in this section will instruct you to copy files from this repo to system directories. If you don't want to do this manually, you can use the Makefile:
@@ -84,6 +80,18 @@ Tip: The steps in this section will instruct you to copy files from this repo to
 $ git clone https://github.com/erikw/restic-systemd-automatic-backup.git && cd $(basename "$_" .git)
 $ sudo make install
 ````
+
+As this step-by-step setup assumes that you will intall everyting to `/etc` and `/sbin`, the first thing to do is to remove the placeholder value that these files have. Simply run
+```console
+$ find etc sbin -type f -exec sed -i.bak -e "s|\$RESTIC_PREFIX||g" {} \; -exec rm {}.bak \;
+$ make prefix-substitute
+```
+and you should now see that all files have been changed like e.g.
+```diff
+-export RESTIC_PASSWORD_FILE="$RESTIC_PREFIX/etc/restic/pw.txt"
++export RESTIC_PASSWORD_FILE="/etc/restic/pw.txt"
+```
+
 
 Arch Linux users can install the aur package [restic-systemd-automatic-backup](https://aur.archlinux.org/packages/restic-systemd-automatic-backup/) e.g.:
 ```console
@@ -131,7 +139,7 @@ Restic support exclude files. They list file pattern paths to exclude from you b
   * `/Users/user1/.config/restic/backup_exclude`
 
 
-## 5. Make first backup 
+## 5. Make first backup
 Now see if the backup itself works, by running as root
 
 ```console
